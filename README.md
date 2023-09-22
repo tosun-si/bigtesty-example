@@ -1,9 +1,11 @@
-# bigtesty
+# bigtesty-example
 
+This project shows examples with BigQuery integration tests launched with BigTesty.\
 BigTesty is a framework that allows to create Integration Tests with BigQuery on a real and short-lived Infrastructure.
 
-## Run the containerized application
+## Run integration tests with BigTesty
 
+```bash
 docker run -it \
     -e PROJECT_ID=$PROJECT_ID \
     -e SA_EMAIL=$SA_EMAIL \
@@ -17,3 +19,4 @@ docker run -it \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.config/gcloud:/root/.config/gcloud \
     bigtesty
+```bash
