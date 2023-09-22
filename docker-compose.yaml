@@ -1,0 +1,12 @@
+version: '3'
+services:
+  dind-service:
+    image: docker:24.0.6-dind
+    privileged: true
+    ports:
+      - "127.0.0.1:2375:2375"
+      - "127.0.0.1:2376:2376"
+networks:
+  default:
+    external:
+      name: cloudbuild
