@@ -1,0 +1,11 @@
+steps:
+  - name: 'europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest'
+    args: [ './scripts/run_tests_bigtesty.sh' ]
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'LOCATION=$LOCATION'
+      - 'TF_VAR_project_id=$PROJECT_ID'
+      - 'TF_STATE_BUCKET=$_TF_STATE_BUCKET'
+      - 'TF_STATE_PREFIX=$_TF_STATE_PREFIX'
+      - 'GOOGLE_PROVIDER_VERSION=$_GOOGLE_PROVIDER_VERSION'
+      - 'ROOT_TEST_FOLDER=$_ROOT_TEST_FOLDER'
