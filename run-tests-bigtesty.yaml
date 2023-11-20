@@ -1,32 +1,8 @@
 steps:
-  - id: start-dind
-    name: docker/compose
-    args: [ '-f', 'docker-compose.yaml', 'up', 'dind-service' ]
-  - id: 'Check service is listening'
-    name: alpine:latest
-    args:
-      - '-eEuo'
-      - 'pipefail'
-      - '-c'
-      - |-
-        apk add curl
-        until $(curl dind-service:2376); do
-          echo '##################Waiting################'
-          sleep 5
-        done
-        curl dind-service:2376
-    entrypoint: "sh"
-    #    args: [ "dind-service:2375" ]
-    #   waitFor: [ start-dind ]
-    waitFor: [ '-' ]
-#  - name: 'europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest'
-#    args: [ './scripts/run_tests_bigtesty.sh' ]
-#    env:
-#      - 'DOCKER_HOST=tcp://dind-service:2375'
-#      - 'PROJECT_ID=$PROJECT_ID'
-#      - 'LOCATION=$LOCATION'
-#      - 'TF_VAR_project_id=$PROJECT_ID'
-#      - 'TF_STATE_BUCKET=$_TF_STATE_BUCKET'
-#      - 'TF_STATE_PREFIX=$_TF_STATE_PREFIX'
-#      - 'GOOGLE_PROVIDER_VERSION=$_GOOGLE_PROVIDER_VERSION'
-#      - 'ROOT_TEST_FOLDER=$_ROOT_TEST_FOLDER'
+  - name: 'europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest'
+    args: [ './scripts/run_tests_bigtesty.sh' ]
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'LOCATION=$LOCATION'
+      - 'IAC_BACKEND_URL=$_IAC_BACKEND_URL'
+      - 'ROOT_TEST_FOLDER=$_ROOT_TEST_FOLDER'
