@@ -1,19 +1,12 @@
 steps:
-  - id: start-dind
-    name: docker/compose
-    args: [ '-f', 'docker-compose.yaml', 'up', '-d', 'dind-service' ]
-  - id: 'Check service is listening'
-    name: gcr.io/cloud-builders/curl
-    args: [ "dind-service:2375" ]
-    waitFor: [ start-dind ]
   - name: 'europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest'
     args: [ './scripts/run_tests_bigtesty.sh' ]
     env:
-      - 'DOCKER_HOST=tcp://dind-service:2375'
       - 'PROJECT_ID=$PROJECT_ID'
       - 'LOCATION=$LOCATION'
-      - 'TF_VAR_project_id=$PROJECT_ID'
-      - 'TF_STATE_BUCKET=$_TF_STATE_BUCKET'
-      - 'TF_STATE_PREFIX=$_TF_STATE_PREFIX'
-      - 'GOOGLE_PROVIDER_VERSION=$_GOOGLE_PROVIDER_VERSION'
+      - 'SA_EMAIL=$_SA_EMAIL'
+      - 'IAC_BACKEND_URL=$_IAC_BACKEND_URL'
       - 'ROOT_TEST_FOLDER=$_ROOT_TEST_FOLDER'
+logsBucket: 'gs://cloud-build-ci-cd-groupbees'
+options:
+  logging: GCS_ONLY

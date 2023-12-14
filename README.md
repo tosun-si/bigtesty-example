@@ -6,17 +6,14 @@ BigTesty is a framework that allows to create Integration Tests with BigQuery on
 ## Run integration tests with BigTesty
 
 ```bash
-docker run -it \
+ docker run -it \
     -e PROJECT_ID=$PROJECT_ID \
     -e SA_EMAIL=$SA_EMAIL \
     -e LOCATION=$LOCATION \
-    -e TF_VAR_project_id=$PROJECT_ID \
-    -e TF_STATE_BUCKET=$TF_STATE_BUCKET \
-    -e TF_STATE_PREFIX=$TF_STATE_PREFIX \
-    -e GOOGLE_PROVIDER_VERSION=$GOOGLE_PROVIDER_VERSION \
+    -e IAC_BACKEND_URL=$IAC_BACKEND_URL \
     -e ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
     -v $(pwd)/tests:/app/tests \
-    -v $(pwd)/tests/tables:/app/infra/bigquery/tables \
+    -v $(pwd)/tests/tables:/app/bigtesty/infra/resource/tables \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.config/gcloud:/root/.config/gcloud \
     bigtesty
@@ -29,6 +26,6 @@ gcloud builds submit \
     --project=$PROJECT_ID \
     --region=$LOCATION \
     --config run-tests-bigtesty.yaml \
-    --substitutions _TF_STATE_BUCKET=$TF_STATE_BUCKET,_TF_STATE_PREFIX=$TF_STATE_PREFIX,_GOOGLE_PROVIDER_VERSION=$GOOGLE_PROVIDER_VERSION,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
+    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
     --verbosity="debug" .
 ```
