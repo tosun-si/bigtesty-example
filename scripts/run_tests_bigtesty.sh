@@ -12,7 +12,7 @@ docker run -it \
   -e SA_EMAIL="$SA_EMAIL" \
   -e IAC_BACKEND_URL="$IAC_BACKEND_URL" \
   -e ROOT_TEST_FOLDER="$ROOT_TEST_FOLDER" \
-  -v tests:/app/tests \
-  -v tests/tables:/app/bigtesty/infra/resource/tables \
+  -v /workspace/tests:/app/tests \
+  -v /workspace/tests/tables:/app/bigtesty/infra/resource/tables \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  bigtesty
+  europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest

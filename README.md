@@ -29,3 +29,16 @@ gcloud builds submit \
     --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
     --verbosity="debug" .
 ```
+
+```bash
+gcloud beta builds triggers create manual \
+    --project=$PROJECT_ID \
+    --region=$LOCATION \
+    --name="run-tests-bigtesty" \
+    --repo="https://github.com/tosun-si/bigtesty-example" \
+    --repo-type="GITHUB" \
+    --branch="main" \
+    --build-config="run-tests-bigtesty.yaml" \
+    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
+    --verbosity="debug"
+```
