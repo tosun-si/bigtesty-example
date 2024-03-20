@@ -1,13 +1,12 @@
 steps:
-  name: 'gcr.io/cloud-builders/docker'
-  script: |
-    docker run -e DAGGER_CLOUD_TOKEN=fde6fcb7-d1ba-4d64-afb6-be2191bc999b -e PROJECT_ID=gb-poc-373711 -e LOCATION=europe-west1 -e SA_EMAIL=sa-dataflow-dev@gb-poc-373711.iam.gserviceaccount.com -e IAC_BACKEND_URL=gs://gb-poc-pulumi-state/bigtesty -e ROOT_TEST_FOLDER=tests -v /workspace/tests:/app/tests -v /workspace/tests/tables:/app/bigtesty/infra/resource/tables -v /var/run/docker.sock:/var/run/docker.sock europe-west1-docker.pkg.dev/gb-poc-373711/internal-images/bigtesty:latest
-#  env:
-#    - 'PROJECT_ID=$PROJECT_ID'
-#    - 'LOCATION=$LOCATION'
-#    - 'SA_EMAIL=$_SA_EMAIL'
-#    - 'IAC_BACKEND_URL=$_IAC_BACKEND_URL'
-#    - 'ROOT_TEST_FOLDER=$_ROOT_TEST_FOLDER'
-#logsBucket: 'gs://cloud-build-ci-cd-groupbees'
-#options:
-#  logging: GCS_ONLY
+  - name: 'mazlumtosun/bigtesty'
+    env:
+      - 'GOOGLE_PROJECT=$PROJECT_ID'
+      - 'GOOGLE_REGION=$LOCATION'
+      - 'SA_EMAIL=$_SA_EMAIL'
+      - 'PULUMI_BACKEND_URL=$_IAC_BACKEND_URL'
+      - 'ROOT_TEST_FOLDER=/workspace/tests'
+      - 'ROOT_TABLES_FOLDER=/workspace/tests/tables'
+      - 'TABLES_CONFIG_FILE_PATH=/workspace/tests/tables/tables.json'
+      - 'BIGTESTY_STACK_NAME=bigtesty'
+      - 'PULUMI_CONFIG_PASSPHRASE=gcp_fake_passphrase'

@@ -7,16 +7,20 @@ BigTesty is a framework that allows to create Integration Tests with BigQuery on
 
 ```bash
  docker run -it \
-    -e PROJECT_ID=$PROJECT_ID \
+    -e GOOGLE_PROJECT=$PROJECT_ID \
     -e SA_EMAIL=$SA_EMAIL \
-    -e LOCATION=$LOCATION \
-    -e IAC_BACKEND_URL=$IAC_BACKEND_URL \
+    -e GOOGLE_REGION=$LOCATION \
+    -e PULUMI_BACKEND_URL=$IAC_BACKEND_URL \
     -e ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
+    -e ROOT_TABLES_FOLDER="$ROOT_TABLES_FOLDER" \
+    -e TABLES_CONFIG_FILE_PATH="$TABLES_CONFIG_FILE_PATH" \
+    -e BIGTESTY_STACK_NAME=bigtesty \
+    -e PULUMI_CONFIG_PASSPHRASE=gcp_fake_passphrase \
     -v $(pwd)/tests:/app/tests \
-    -v $(pwd)/tests/tables:/app/bigtesty/infra/resource/tables \
+    -v $(pwd)/tests/tables:/app/tests/tables \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.config/gcloud:/root/.config/gcloud \
-    bigtesty
+     bigtesty-pulumi
 ```
 
 ## Run integration tests with Cloud Build
@@ -26,7 +30,7 @@ gcloud builds submit \
     --project=$PROJECT_ID \
     --region=$LOCATION \
     --config run-tests-bigtesty.yaml \
-    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
+    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL \
     --verbosity="debug" .
 ```
 

@@ -8,7 +8,7 @@
       {
         "tableId": "job_failure",
         "autodetect": false,
-        "tableSchemaPath": "tables/schema/monitoring/job_failure.json",
+        "tableSchemaPath": "schema/monitoring/job_failure.json",
         "partitionType": "DAY",
         "partitionField": "dwhCreationDate",
         "clustering": [
