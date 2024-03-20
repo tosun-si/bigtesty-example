@@ -1,13 +1,7 @@
-image: mazlumtosun/bigtesty
-
 variables:
   GOOGLE_PROJECT: "gb-poc-373711"
   GOOGLE_REGION: "europe-west1"
-  SA_EMAIL: "sa-dataflow-dev@gb-poc-373711.iam.gserviceaccount.com"
   PULUMI_BACKEND_URL: "gs://gb-poc-pulumi-state/bigtesty"
-  ROOT_TEST_FOLDER: $CI_PROJECT_DIR/tests
-  ROOT_TABLES_FOLDER: $CI_PROJECT_DIR/tests/tables
-  TABLES_CONFIG_FILE_PATH: $CI_PROJECT_DIR/tests/tables/tables.json
   BIGTESTY_STACK_NAME: "bigtesty"
   PULUMI_CONFIG_PASSPHRASE: "gcp_fake_passphrase"
 
@@ -16,6 +10,13 @@ stages:
 
 tests:
   stage: tests
+  image:
+    name: "mazlumtosun/bigtesty"
+    entrypoint: [ "" ]
   when: manual
   script:
-    - echo 'bigtesty'
+    - |
+      bigtesty test \
+        --root-test-folder $CI_PROJECT_DIR/tests \
+        --root-tables-folder $CI_PROJECT_DIR/tests/tables \
+        --tables-config-file $CI_PROJECT_DIR/tests/tables/tables.json
