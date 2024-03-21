@@ -17,6 +17,7 @@ jobs:
   run-template:
 
     runs-on: ubuntu-latest
+    container: mazlumtosun/bigtesty
 
     permissions:
       contents: 'read'
@@ -32,12 +33,6 @@ jobs:
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ env.SA_CI_CD_EMAIL }}'
-
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
-        with:
-          version: '>= 444.0.0'
-          project_id: '${{ env.PROJECT_ID }}'
 
       - name: 'Run BigTesty Tests'
         run: |
