@@ -30,7 +30,7 @@ gcloud builds submit \
     --project=$PROJECT_ID \
     --region=$LOCATION \
     --config run-tests-bigtesty.yaml \
-    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL \
+    --substitutions _IAC_BACKEND_URL=$IAC_BACKEND_URL \
     --verbosity="debug" .
 ```
 

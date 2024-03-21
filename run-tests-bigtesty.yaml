@@ -1,12 +1,13 @@
 steps:
   - name: 'mazlumtosun/bigtesty'
+    script: |
+      bigtesty test \
+        --root-test-folder /workspace/tests \
+        --root-tables-folder /workspace/tests/tables \
+        --tables-config-file /workspace/tests/tables/tables.json
     env:
       - 'GOOGLE_PROJECT=$PROJECT_ID'
       - 'GOOGLE_REGION=$LOCATION'
-      - 'SA_EMAIL=$_SA_EMAIL'
       - 'PULUMI_BACKEND_URL=$_IAC_BACKEND_URL'
-      - 'ROOT_TEST_FOLDER=/workspace/tests'
-      - 'ROOT_TABLES_FOLDER=/workspace/tests/tables'
-      - 'TABLES_CONFIG_FILE_PATH=/workspace/tests/tables/tables.json'
       - 'BIGTESTY_STACK_NAME=bigtesty'
       - 'PULUMI_CONFIG_PASSPHRASE=gcp_fake_passphrase'
