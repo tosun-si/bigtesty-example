@@ -16,11 +16,11 @@ BigTesty is a framework that allows to create Integration Tests with BigQuery on
     -e TABLES_CONFIG_FILE_PATH="$TABLES_CONFIG_FILE_PATH" \
     -e BIGTESTY_STACK_NAME=bigtesty \
     -e PULUMI_CONFIG_PASSPHRASE=gcp_fake_passphrase \
-    -v $(pwd)/tests:/app/tests \
-    -v $(pwd)/tests/tables:/app/tests/tables \
+    -v $(pwd)/tests:/opt/bigtesty/tests \
+    -v $(pwd)/tests/tables:/opt/bigtesty/tests/tables \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $HOME/.config/gcloud:/root/.config/gcloud \
-     bigtesty-pulumi
+    -v $HOME/.config/gcloud:/opt/bigtesty/.config/gcloud \
+    bigtesty-pulumi
 ```
 
 ## Run integration tests with Cloud Build
