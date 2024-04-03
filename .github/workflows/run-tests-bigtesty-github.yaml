@@ -17,9 +17,6 @@ jobs:
   run-template:
 
     runs-on: ubuntu-latest
-    container:
-      image: mazlumtosun/bigtesty
-      options: --user root
 
     permissions:
       contents: 'read'
@@ -35,6 +32,16 @@ jobs:
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ env.SA_CI_CD_EMAIL }}'
+
+      - name: 'Install Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.18'
+          cache: 'pip'
+
+      - name: 'Set up BigTesty'
+        run: pip install -r requirements.txt
+        shell: bash
 
       - name: 'Run BigTesty Tests'
         run: |
