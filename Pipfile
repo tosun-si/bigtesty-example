@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bigtesty = "==0.1.0a5"
+bigtesty = "==0.1.0a7"
 
 [requires]
 python_version = "3.11"
