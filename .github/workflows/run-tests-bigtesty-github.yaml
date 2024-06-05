@@ -5,7 +5,7 @@ env:
   GOOGLE_REGION: europe-west1
   IAC_BACKEND_URL: gs://gb-poc-pulumi-state/bigtesty
 
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/975119474255/locations/global/workloadIdentityPools/gb-github_action-actions-ci-cd-pool/providers/gb-github_action-actions-ci-cd-provider'
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/975119474255/locations/global/workloadIdentityPools/gb-github-actions-ci-cd-pool/providers/gb-github-actions-ci-cd-provider'
   SA_CI_CD_EMAIL: 'sa-bigtesty@gb-poc-373711.iam.gserviceaccount.com'
 
 on:
