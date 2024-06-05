@@ -6,7 +6,7 @@ BigTesty is a framework that allows to create Integration Tests with BigQuery on
 ## Run integration tests with BigTesty
 
 ```bash
- docker run -it \
+docker run -it \
     -e GOOGLE_PROJECT=$PROJECT_ID \
     -e SA_EMAIL=$SA_EMAIL \
     -e GOOGLE_REGION=$LOCATION \
@@ -19,8 +19,7 @@ BigTesty is a framework that allows to create Integration Tests with BigQuery on
     -v $(pwd)/tests:/opt/bigtesty/tests \
     -v $(pwd)/tests/tables:/opt/bigtesty/tests/tables \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $HOME/.config/gcloud:/opt/bigtesty/.config/gcloud \
-    bigtesty-pulumi
+    -v $HOME/.config/gcloud:/opt/bigtesty/.config/gcloud
 ```
 
 ## Run integration tests with Cloud Build
