@@ -2,7 +2,6 @@
   "description": "Test of monitoring data",
   "scenarios": [
     {
-      "id": "1239",
       "description": "Nominal case find failure by feature name",
       "given": [
         {
@@ -16,6 +15,7 @@
           "fields_to_ignore": [
             "\\[\\d+\\]\\['dwhCreationDate']"
           ],
+          "assertion_type": "row_match",
           "actual_file_path": "monitoring/when/find_failures_by_feature_name.sql",
           "expected_file_path": "monitoring/then/expected_failures_feature_name.json"
         }
