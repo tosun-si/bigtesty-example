@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/tosun-si/bigtesty/main/schemas/bigtesty-test.schema.json
+
+description: Test of monitoring data with assertion functions
+
+scenarios:
+  - name: find_failures_by_feature_name_with_functions
+    description: Nominal case find failure by feature name with assertion functions
+    given:
+      - table: monitoring.job_failure
+        rows_file: given/input_failures_feature_name.json
+    then:
+      - query_file: when/find_failures_by_feature_name.sql
+        expected_file: then/expected_failures_feature_name.json
+        functions:
+          - module: then/assertion_functions/expected_functions.py
+            function: check_actual_matches_expected
+          - module: then/assertion_functions/expected_functions.py
+            function: check_expected_failure_has_feature_name_psg
+          - module: then/assertion_functions/expected_functions_failure_job_name.py
+            function: check_expected_failure_has_job_name_my_job

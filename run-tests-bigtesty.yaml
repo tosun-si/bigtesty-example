@@ -1,14 +1,8 @@
 steps:
-  - name: 'mazlumtosun/bigtesty'
-    script: |
-      bigtesty test \
-        --project $PROJECT_ID \
-        --region $LOCATION \
-        --iac-backend-url $IAC_BACKEND_URL \
-        --root-test-folder /workspace/tests \
-        --root-tables-folder /workspace/tests/tables \
-        --tables-config-file /workspace/tests/tables/tables.json
-    env:
-      - 'PROJECT_ID=$PROJECT_ID'
-      - 'LOCATION=$LOCATION'
-      - 'IAC_BACKEND_URL=$_IAC_BACKEND_URL'
+  - name: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        uv sync --frozen
+        uv run bigtesty test --project $PROJECT_ID

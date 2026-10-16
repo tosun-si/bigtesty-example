@@ -1,23 +1,23 @@
 variables:
-  GOOGLE_PROJECT: "gb-poc-373711"
-  GOOGLE_REGION: "europe-west1"
-  IAC_BACKEND_URL: "gs://gb-poc-pulumi-state/bigtesty"
+  GOOGLE_CLOUD_PROJECT: "gb-poc-373711"
+  UV_CACHE_DIR: "$CI_PROJECT_DIR/.uv-cache"
+  UV_LINK_MODE: "copy"
 
 stages:
   - tests
 
 tests:
   stage: tests
-  image:
-    name: "mazlumtosun/bigtesty"
-    entrypoint: [ "" ]
+  image: "ghcr.io/astral-sh/uv:python3.13-bookworm-slim"
   when: manual
+  cache:
+    key:
+      files:
+        - uv.lock
+    paths:
+      - .uv-cache
   script:
-    - |
-      bigtesty test \
-        --project $GOOGLE_PROJECT \
-        --region $GOOGLE_REGION \
-        --iac-backend-url $IAC_BACKEND_URL \
-        --root-test-folder $CI_PROJECT_DIR/tests \
-        --root-tables-folder $CI_PROJECT_DIR/tests/tables \
-        --tables-config-file $CI_PROJECT_DIR/tests/tables/tables.json
+    - uv sync --frozen
+    - uv run bigtesty test
+  after_script:
+    - uv cache prune --ci

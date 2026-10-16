@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/tosun-si/bigtesty/main/schemas/bigtesty-test.schema.json
+
+description: Test of monitoring data
+
+scenarios:
+  - name: find_failures_by_feature_name
+    description: Nominal case find failure by feature name
+    given:
+      - table: monitoring.job_failure
+        rows_file: given/input_failures_feature_name.json
+    then:
+      - query_file: when/find_failures_by_feature_name.sql
+        expected_file: then/expected_failures_feature_name.json
