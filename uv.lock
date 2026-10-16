@@ -26,7 +26,7 @@ wheels = [
 
 [[package]]
 name = "bigtesty"
-version = "1.0.0rc2"
+version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "deepdiff" },
@@ -35,9 +35,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/0c/132d2144a9faea4079f9a4e638efdeb5fb5445c8e4ecf6a91792934adaff/bigtesty-1.0.0rc2.tar.gz", hash = "sha256:88c0842b78f1c6c665f24d15f8e15b2c6e95308ea5fbea8532eae79f3e137158", size = 24668, upload-time = "2026-10-16T13:29:02.452Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c2/c9/0473cd48c1017b5fce9e0d694784c83d57b396137821b8462cebf486a4cd/bigtesty-1.0.0.tar.gz", hash = "sha256:6159ec289b37b8b03f06562ae71f8937d2d4614979d7aed6887f1ed7cf65dc73", size = 24678, upload-time = "2026-10-16T14:03:49.268Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/b3/b14cb011ed0de3c36f8392759602053628c8cb93c0fa617b5c57a9687681/bigtesty-1.0.0rc2-py3-none-any.whl", hash = "sha256:e43364762c8a8ba03fce6b3379b318346e882a9a0726e0e4d54b03f0588fba51", size = 30524, upload-time = "2026-10-16T13:29:01.2Z" },
+    { url = "https://files.pythonhosted.org/packages/68/00/adb7b71f8c41f64d07a798f4d69fec9a28a5bf7757889efbffc8ecc057cb/bigtesty-1.0.0-py3-none-any.whl", hash = "sha256:020e8332d2d654e5ee16023589ccabbbb8c347d99904fe4b6d194b9ee4d9f9c6", size = 30480, upload-time = "2026-10-16T14:03:47.782Z" },
 ]
 
 [[package]]
@@ -54,7 +54,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "bigtesty", specifier = "==1.0.0rc2" }]
+requires-dist = [{ name = "bigtesty", specifier = "==1.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=8" }]
