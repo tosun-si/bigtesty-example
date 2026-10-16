@@ -1,48 +1,58 @@
 # bigtesty-example
 
-This project shows examples with BigQuery integration tests launched with BigTesty.\
-BigTesty is a framework that allows to create Integration Tests with BigQuery on a real and short-lived Infrastructure.
+This project shows BigQuery integration tests launched with [BigTesty](https://github.com/tosun-si/bigtesty).
+BigTesty creates isolated, short-lived datasets for each scenario, loads the test data, runs the queries and compares
+the results with the expected rows.
 
-## Run integration tests with BigTesty
+Docs: https://tosun-si.github.io/bigtesty/
 
-```bash
- docker run -it \
-    -e GOOGLE_PROJECT=$PROJECT_ID \
-    -e SA_EMAIL=$SA_EMAIL \
-    -e GOOGLE_REGION=$LOCATION \
-    -e PULUMI_BACKEND_URL=$IAC_BACKEND_URL \
-    -e ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
-    -e ROOT_TABLES_FOLDER="$ROOT_TABLES_FOLDER" \
-    -e TABLES_CONFIG_FILE_PATH="$TABLES_CONFIG_FILE_PATH" \
-    -e BIGTESTY_STACK_NAME=bigtesty \
-    -e PULUMI_CONFIG_PASSPHRASE=gcp_fake_passphrase \
-    -v $(pwd)/tests:/opt/bigtesty/tests \
-    -v $(pwd)/tests/tables:/opt/bigtesty/tests/tables \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $HOME/.config/gcloud:/opt/bigtesty/.config/gcloud \
-    bigtesty-pulumi
+## Project layout
+
+```text
+bigtesty.yaml                          # datasets and tables created for each scenario
+schema/monitoring/job_failure.json     # BigQuery JSON schema of the table
+tests/monitoring/
+├── find_failures_by_feature_name.bigtesty.yaml
+├── find_failures_by_job_name.bigtesty.yaml
+├── find_failures_with_functions.bigtesty.yaml
+├── given/                             # test data
+├── when/                              # SQL queries
+└── then/                              # expected rows and assertion functions
 ```
 
-## Run integration tests with Cloud Build
+## Setup
+
+BigTesty is a dev dependency of the project, managed with [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv sync
+gcloud auth application-default login
+```
+
+The user or service account needs the `roles/bigquery.user` role on the test project.
+
+## Run the tests
+
+```bash
+uv run bigtesty test --project $PROJECT_ID
+# or with pytest, one test per scenario
+uv run pytest --bigtesty-project $PROJECT_ID
+```
+
+`GOOGLE_CLOUD_PROJECT` can be used instead of `--project`.
+
+## CI
+
+All the pipelines install the dependencies locked in `uv.lock` with `uv sync --frozen`:
+
+- GitHub Actions: [`.github/workflows/run-tests-bigtesty-github.yaml`](.github/workflows/run-tests-bigtesty-github.yaml),
+  Workload Identity Federation and the uv cache of `astral-sh/setup-uv`.
+- GitLab CI: [`.gitlab-ci.yml`](.gitlab-ci.yml), uv image and uv cache keyed on `uv.lock`.
+- Cloud Build: [`run-tests-bigtesty.yaml`](run-tests-bigtesty.yaml).
 
 ```bash
 gcloud builds submit \
     --project=$PROJECT_ID \
     --region=$LOCATION \
-    --config run-tests-bigtesty.yaml \
-    --substitutions _IAC_BACKEND_URL=$IAC_BACKEND_URL \
-    --verbosity="debug" .
-```
-
-```bash
-gcloud beta builds triggers create manual \
-    --project=$PROJECT_ID \
-    --region=$LOCATION \
-    --name="run-tests-bigtesty" \
-    --repo="https://github.com/tosun-si/bigtesty-example" \
-    --repo-type="GITHUB" \
-    --branch="main" \
-    --build-config="run-tests-bigtesty.yaml" \
-    --substitutions _SA_EMAIL=$SA_EMAIL,_IAC_BACKEND_URL=$IAC_BACKEND_URL,_ROOT_TEST_FOLDER=$ROOT_TEST_FOLDER \
-    --verbosity="debug"
+    --config run-tests-bigtesty.yaml .
 ```

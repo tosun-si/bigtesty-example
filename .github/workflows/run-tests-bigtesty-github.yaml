@@ -1,11 +1,7 @@
 name: Run BigTesty Test
 
 env:
-  GOOGLE_PROJECT: gb-poc-373711
-  GOOGLE_REGION: europe-west1
-  PULUMI_BACKEND_URL: gs://gb-poc-pulumi-state/bigtesty
-  BIGTESTY_STACK_NAME: bigtesty
-  PULUMI_CONFIG_PASSPHRASE: gcp_fake_passphrase
+  GOOGLE_CLOUD_PROJECT: gb-poc-373711
 
   WORKLOAD_IDENTITY_PROVIDER: 'projects/975119474255/locations/global/workloadIdentityPools/gb-github-actions-ci-cd-pool/providers/gb-github-actions-ci-cd-provider'
   SA_CI_CD_EMAIL: 'sa-bigtesty@gb-poc-373711.iam.gserviceaccount.com'
@@ -28,24 +24,18 @@ jobs:
 
       - name: 'Google auth'
         id: 'auth'
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ env.SA_CI_CD_EMAIL }}'
 
-      - name: 'Install Python'
-        uses: actions/setup-python@v4
+      - name: 'Set up uv'
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: '3.9.18'
-          cache: 'pip'
+          enable-cache: true
 
       - name: 'Set up BigTesty'
-        run: pip install -r requirements.txt
-        shell: bash
+        run: uv sync --frozen
 
       - name: 'Run BigTesty Tests'
-        run: |
-          bigtesty test \
-          --root-test-folder $GITHUB_WORKSPACE/tests \
-          --root-tables-folder $GITHUB_WORKSPACE/tests/tables \
-          --tables-config-file $GITHUB_WORKSPACE/tests/tables/tables.json
+        run: uv run bigtesty test

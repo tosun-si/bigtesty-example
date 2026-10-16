@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/tosun-si/bigtesty/main/schemas/bigtesty-test.schema.json
+
+description: Test of monitoring data
+
+scenarios:
+  - name: find_failures_by_job_name
+    description: Nominal case find failure by job name
+    given:
+      - table: monitoring.job_failure
+        rows:
+          - featureName: myFeature
+            jobName: jobPSG
+            pipelineStep: myPipeline
+            inputElement: myInputElement
+            exceptionType: myExceptionType
+            stackTrace: myStackTrace
+            componentType: myComponentType
+            dwhCreationDate: "2022-05-06 17:38:10"
+            dagOperator: myDagOperator
+            additionalInfo: info
+    then:
+      - query: SELECT * FROM `monitoring.job_failure` WHERE jobName = 'jobPSG'
+        expected:
+          - featureName: myFeature
+            jobName: jobPSG
+            pipelineStep: myPipeline
+            inputElement: myInputElement
+            exceptionType: myExceptionType
+            stackTrace: myStackTrace
+            componentType: myComponentType
+            dwhCreationDate: "2022-05-06 17:38:10"
+            dagOperator: myDagOperator
+            additionalInfo: info
