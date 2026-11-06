@@ -3,7 +3,7 @@ name = "bigtesty-example"
 version = "0.1.0"
 description = "BigQuery integration tests launched with BigTesty."
 requires-python = ">=3.11"
-dependencies = ["bigtesty==1.3.0"]
+dependencies = ["bigtesty==1.4.0"]
 
 [dependency-groups]
 dev = ["pytest>=8"]
